@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { Dialog } from '@angular/cdk/dialog';
 
 
 import { TasksService } from '../../services/task.service';
@@ -7,7 +8,6 @@ import { TaskDetails } from '../../models/tasks.model';
 
 import { TaskSearchFilterComponent } from '../task-search-filter/task-search-filter.component';
 
-import { natSpaces } from '../../constants/app.constants';
 
 @Component({
   selector: 'app-task-list',
@@ -17,9 +17,13 @@ import { natSpaces } from '../../constants/app.constants';
 })
 export class TaskListComponent {
   public taskList: Array<TaskDetails> | any;
-  public natSpaces = natSpaces;
+  dialogTitle: string = 'Create Server';
+  isDialogOpen: boolean = false; 
 
-  constructor(private tasksService: TasksService) {}
+
+  constructor(private tasksService: TasksService, public dialog: Dialog) {}
+
+  
   ngOnInit() {
     this.tasksService.getTasksList();
     this.tasksService.taskList$.asObservable().subscribe((data: any) => {
@@ -40,35 +44,25 @@ export class TaskListComponent {
   }
 
   createTask(task: TaskDetails) {
-    this.showOverlay();
+    this.openDialog();
   }
 
 
-  public showOverlay() {
-    if (!this._overlayId) {
-      if (!this._overlayId) {
-        const positionSettings: PositionSettings = {
-          horizontalDirection: HorizontalAlignment.Left,
-          verticalDirection: VerticalAlignment.Bottom,
-          horizontalStartPoint: HorizontalAlignment.Right,
-          verticalStartPoint: VerticalAlignment.Bottom
-        };
-        const strategy = new ConnectedPositioningStrategy(positionSettings);
-        const overlaySettings: OverlaySettings = {
-          target: this.searchInput.nativeElement,
-          positionStrategy: strategy,
-          modal: false
-        };
-
-        this._overlayId = this.overlayService.attach(SearchFilterComponent, overlaySettings);
-      }
-    }
-  }
-
-  hideOverlay() {
-    this.openSearchModal = false;
-    this.overlayService.hide(this._overlayId);
+  closeDialog() {
+    this.isDialogOpen = false;
   }  
+
+  openDialog(): void {
+    const dialogRef = this.dialog.open<string>(Dialog, {
+      width: '250px',
+      data: {title: this.dialogTitle },
+    });
+
+    dialogRef.closed.subscribe(result => {
+      console.log('The dialog was closed');
+      this.dialogTitle = '';
+    });
+  }
 
 
 

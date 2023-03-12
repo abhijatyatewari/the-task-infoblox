@@ -1,0 +1,45 @@
+<ng-template cdkConnectedOverlay
+    [cdkConnectedOverlayOrigin]="trigger"
+    [cdkConnectedOverlayOpen]="isOpen">
+    <form autocomplete="off">
+        <div class="layout-box">
+            <div class="form-control-wrapper">
+                <mat-form-field>
+                    <mat-label>Name</mat-label>
+                    <input matInput
+                        name="taskName"
+                        type="text"
+                        placeholder=""
+                        [(ngModel)]="taskName" />
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Description</mat-label>
+                    <input matInput
+                        required
+                        name="taskdescription"
+                        type="text"
+                        placeholder="On-Prem Description(256 characters max )"
+                        [(ngModel)]="taskdescription" />
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>NAT Space</mat-label>
+                    <mat-select [(ngModel)]="taskNatSpace">
+                        <mat-option *ngFor="let nat of natSpaces"
+                            value="{{nat.id}}">{{nat.name}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>IP Address</mat-label>
+                    <input matInput
+                        name="ipAddress"
+                        type="text"
+                        placeholder="On-Prem Description(256 characters max )"
+                        [(ngModel)]="taskIpAddress" />
+                    <mat-error *ngIf="taskIpAddress">
+                        IP Address Wrong!
+                    </mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+    </form>
+</ng-template>

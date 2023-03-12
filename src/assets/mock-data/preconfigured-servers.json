@@ -21,7 +21,7 @@
     "server_ip": "10.19.19.23",
     "nat_space_id": "12",
     "server_nat_ip": "122.12.19.21",
-    "status": "erorr"
+    "status": "error"
     },
     {
     "name": "Nat-vat",

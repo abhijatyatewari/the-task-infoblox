@@ -1,73 +1,8 @@
-@use '@infragistics/igniteui-angular/theming' as *;
-@import '../../../../globalTheme/variables.scss';
 
-$custom-input-group: input-group-theme(
-  $border-color: transparent,
-  $hover-border-color: transparent,
-  $focused-border-color: transparent
-);
 :host {
-  ::ng-deep {
-    @include input-group($custom-input-group);
-  }
-}
-.card-wrapper {
-    min-width: 600px;
-    height: 445px;
+  .filter-wrapper {
+    min-width: 200px;
+    height: 35px;
     margin: 5px -40px 0px 0px;
 }
-
-.layout-box__el {
-    margin-top: 10px;
-}
-
-.custom-button {
-    margin-left: 10px;
-    border: none;
-}
-
-.margin-top {
-    margin-top:10px;
-}
-.close-icon {
-    text-align: right;
-    cursor: pointer;
-    > img {
-      &:hover {
-        background-color: #0000001a;
-      }
-    }
-  }
-
-::ng-deep {
-    .igx-input-group:focus,
-    .igx-input-group__input:focus {
-      caret-color: #444f8b;
-    }
-    .igx-input-group {
-      .igx-icon {
-        color: #babec6;
-      }
-    }
-    .igx-input-group--invalid {
-      border: 1px solid red !important;
-      &:hover {
-        background-color: #f9fafc !important;
-        border: 1px solid red !important;
-      }
-    }
-    .igx-drop-down__item:hover {
-      background-color: #f9fafc;
-    }
-    .igx-drop-down__item--selected.igx-drop-down__item--focused {
-        background-color: #e8eaf2;
-        color: inherit;
-    }
-    .igx-drop-down__item.igx-drop-down__item--selected {
-        background-color: #e8eaf2;
-        color: inherit;
-    }
-    .igx-overlay__wrapper--modal {
-        background: none;
-    }    
 }

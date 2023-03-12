@@ -4,60 +4,26 @@
         <mat-expansion-panel *ngFor="let task of taskList">
             <mat-expansion-panel-header>
                 <mat-panel-title>
-                    {{task.name}}
+                    <mat-checkbox class="task-item-checkbox"></mat-checkbox>
+                    <dl>
+                        <dt>{{task.name}}</dt>
+                        <dd>Description: {{task.description}}</dd>
+                    </dl>
                 </mat-panel-title>
                 <mat-panel-description>
-                    {{task.description}}
                     <span [ngSwitch]="task.status">
                         <mat-icon *ngSwitchCase="'online'"
-                            style="color:green;">check circle icon</mat-icon>
+                            style="color:green;">check_circle_icon</mat-icon>
                         <mat-icon *ngSwitchCase="'error'"
-                            style="color: red;">error icon</mat-icon>
+                            style="color: red;">cancel_icon</mat-icon>
                     </span>
                 </mat-panel-description>
             </mat-expansion-panel-header>
+            <dl>
+                <dt>GENERAL INFO</dt>
+                <dd> <strong>Server IP Address:</strong> {{task.server_ip}}</dd>
+                <dd> <strong>Server NAT IP Address:</strong> {{task.server_nat_ip}}</dd>
+            </dl>
         </mat-expansion-panel>
     </mat-accordion>
 </div>
-<ng-template cdkConnectedOverlay
-    [cdkConnectedOverlayOrigin]="trigger"
-    [cdkConnectedOverlayOpen]="isOpen">
-    <form autocomplete="off">
-        <div class="layout-box">
-            <div class="form-control-wrapper">
-                <mat-form-field>
-                    <mat-label>Name</mat-label>
-                    <input matInput
-                        name="taskName"
-                        type="text"
-                        placeholder=""
-                        formControlName="taskName" />
-                </mat-form-field>
-                <mat-form-field>
-                    <mat-label>Description</mat-label>
-                    <input matInput
-                        required
-                        name="taskdescription"
-                        type="text"
-                        placeholder="On-Prem Description(256 characters max )"
-                        formControlName="taskName" />
-                </mat-form-field>
-                <mat-form-field>
-                    <mat-label>NAT Space</mat-label>
-                    <mat-select>
-                        <mat-option *ngFor="let nat of natSpaces"
-                            value="{{nat.id}}">{{nat.name}}</mat-option>
-                    </mat-select>
-                </mat-form-field>
-                <mat-form-field>
-                    <mat-label>IP Address</mat-label>
-                    <input matInput
-                        name="taskdescription"
-                        type="text"
-                        placeholder="On-Prem Description(256 characters max )"
-                        formControlName="taskName" />
-                </mat-form-field>
-            </div>
-        </div>
-    </form>
-</ng-template>

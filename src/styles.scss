@@ -1,5 +1,6 @@
 @use '@angular/material' as mat;
 @import '@angular/cdk/overlay-prebuilt.css';
+@import '~@angular/material/prebuilt-themes/indigo-pink.css';
 
 @include mat.core();
 
@@ -16,23 +17,6 @@ $my-theme: mat.define-light-theme((
 ));
 
 @include mat.all-component-themes($my-theme);
-
-@font-face {
-    font-family: 'Material Icons';
-    font-style: normal;
-    font-weight: 400;
-    src: url('../src/assets/MaterialIcons-Regular.eot'); /* For IE6-8 */
-    src: local('Material Icons'),
-      local('MaterialIcons-Regular'),
-      url('../src/assets/MaterialIcons-Regular.woff2') format('woff2'),
-      url('../src/assets/MaterialIcons-Regular.woff') format('woff'),
-      url('../src/assets/MaterialIcons-Regular.ttf') format('truetype');
-  }
-
-
-
-
-
 
   .material-icons {
     font-family: 'Material Icons';
