@@ -1,45 +1,61 @@
-<ng-template cdkConnectedOverlay
-    [cdkConnectedOverlayOrigin]="trigger"
-    [cdkConnectedOverlayOpen]="isOpen">
-    <form autocomplete="off">
-        <div class="layout-box">
-            <div class="form-control-wrapper">
-                <mat-form-field>
-                    <mat-label>Name</mat-label>
-                    <input matInput
-                        name="taskName"
-                        type="text"
-                        placeholder=""
-                        [(ngModel)]="taskName" />
-                </mat-form-field>
-                <mat-form-field>
-                    <mat-label>Description</mat-label>
-                    <input matInput
-                        required
-                        name="taskdescription"
-                        type="text"
-                        placeholder="On-Prem Description(256 characters max )"
-                        [(ngModel)]="taskdescription" />
-                </mat-form-field>
-                <mat-form-field>
-                    <mat-label>NAT Space</mat-label>
-                    <mat-select [(ngModel)]="taskNatSpace">
-                        <mat-option *ngFor="let nat of natSpaces"
-                            value="{{nat.id}}">{{nat.name}}</mat-option>
-                    </mat-select>
-                </mat-form-field>
-                <mat-form-field>
-                    <mat-label>IP Address</mat-label>
-                    <input matInput
-                        name="ipAddress"
-                        type="text"
-                        placeholder="On-Prem Description(256 characters max )"
-                        [(ngModel)]="taskIpAddress" />
-                    <mat-error *ngIf="taskIpAddress">
-                        IP Address Wrong!
-                    </mat-error>
-                </mat-form-field>
+<h4 class="manage-task-dialog-title"
+    mat-dialog-title>{{data.title}}</h4>
+<mat-divider></mat-divider>
+<mat-dialog-content class="manage-task-dialog">
+    <div cdkConnectedOverlay>
+        <form autocomplete="off">
+            <div class="layout-box">
+                <div class="form-control-wrapper">
+                    <mat-form-field floatLabel="always">
+                        <mat-label>Name</mat-label>
+                        <input matInput
+                            required
+                            name="taskName"
+                            type="text"
+                            placeholder=""
+                            [(ngModel)]="taskName" />
+                    </mat-form-field>
+                    <mat-form-field>
+                        <mat-label floatLabel="always">Description</mat-label>
+                        <textarea matInput
+                            rows="1"
+                            columns="100"
+                            name="taskdescription"
+                            placeholder="On-Prem Description(256 characters max)"
+                            [(ngModel)]="taskdescription"></textarea>
+                    </mat-form-field>
+                    <mat-form-field floatLabel="always">
+                        <mat-label>NAT Space</mat-label>
+                        <mat-select name="taskNatSpace"
+                            [(ngModel)]="taskNatSpace">
+                            <mat-option *ngFor="let nat of natSpaces"
+                                value="{{nat.id}}">{{nat.name}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field floatLabel="always">
+                        <mat-label>IP Address</mat-label>
+                        <input matInput
+                            name="ipAddress"
+                            type="text"
+                            placeholder=""
+                            [(ngModel)]="taskIpAddress" />
+                        <mat-error *ngIf="taskIpAddress">
+                            IP Address Wrong!
+                        </mat-error>
+                    </mat-form-field>
+                </div>
             </div>
-        </div>
-    </form>
-</ng-template>
+        </form>
+    </div>
+</mat-dialog-content>
+<mat-divider></mat-divider>
+<div mat-dialog-actions
+    class="manage-task-dialog-actions">
+    <button mat-stroked-button
+        mat-dialog-close
+        (click)="closeDialog()">Cancel</button>
+    <button mat-flat-button
+        mat-dialog-close
+        color="primary"
+        (click)="saveTask()">Save & Close</button>
+</div>

@@ -1,17 +1,33 @@
 <div class="container">
-    <app-task-search-filter></app-task-search-filter>
+    <div class="task-action-panel">
+        <button mat-flat-button
+            color="primary"
+            (click)="createTask()">Create Server</button>
+        <button mat-flat-button
+            color="primary"
+            (click)="editTask()">Edit</button>
+        <button mat-flat-button
+            color="primary"
+            (click)="deleteTask()">Remove</button>
+        <app-task-search-filter></app-task-search-filter>
+    </div>
     <mat-accordion>
         <mat-expansion-panel *ngFor="let task of taskList">
             <mat-expansion-panel-header>
                 <mat-panel-title>
-                    <mat-checkbox class="task-item-checkbox"></mat-checkbox>
+                    <span class="online-status-bar"
+                        [ngClass]="task.status == 'online' ? 'status-online' : 'status-offline'"></span>
+                    <mat-checkbox class="task-item-checkbox"
+                        (click)="handleTaskSelection($event)">
+                    </mat-checkbox>
                     <dl>
                         <dt>{{task.name}}</dt>
                         <dd>Description: {{task.description}}</dd>
                     </dl>
                 </mat-panel-title>
                 <mat-panel-description>
-                    <span [ngSwitch]="task.status">
+                    <span [ngSwitch]="
+                        task.status">
                         <mat-icon *ngSwitchCase="'online'"
                             style="color:green;">check_circle_icon</mat-icon>
                         <mat-icon *ngSwitchCase="'error'"

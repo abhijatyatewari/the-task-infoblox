@@ -1,1 +1,27 @@
+::ng-deep {
+    .cdk-overlay-pane {
+        background: white;
+        padding: 10px 30px;
+        min-width: 400px;
+    }
 
+    mat-dialog-content.manage-task-dialog {
+        mat-form-field {
+            min-width: 300px;
+        }
+    }
+
+    div.manage-task-dialog-actions {
+        display: flex;
+        justify-content: space-between;
+    }
+    .manage-task-dialog-title {
+        
+    }
+
+    .mat-divider.mat-divider-horizontal {
+        margin: 20px 0;;
+    }
+
+
+}

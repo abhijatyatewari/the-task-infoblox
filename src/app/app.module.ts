@@ -6,8 +6,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import {MatExpansionModule} from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
+import {MatDividerModule} from '@angular/material/divider';
 import {MatFormFieldModule} from '@angular/material/form-field';  
 import { MatInputModule } from '@angular/material/input';
+import {MatButtonModule} from '@angular/material/button';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatSelectModule} from '@angular/material/select';
 import {MatDialogModule} from '@angular/material/dialog';
@@ -36,8 +38,10 @@ import { TasksService } from './services/task.service';
     BrowserAnimationsModule,
     MatExpansionModule,
     MatIconModule,
+    MatDividerModule,
     MatFormFieldModule,
     MatInputModule,
+    MatButtonModule,
     MatCheckboxModule,
     MatSelectModule,
     MatDialogModule

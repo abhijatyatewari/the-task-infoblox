@@ -7,6 +7,7 @@ import { TasksService } from '../../services/task.service';
 import { TaskDetails } from '../../models/tasks.model';
 
 import { TaskSearchFilterComponent } from '../task-search-filter/task-search-filter.component';
+import { DialogComponent } from '../dialog/dialog.component';
 
 
 @Component({
@@ -18,12 +19,13 @@ import { TaskSearchFilterComponent } from '../task-search-filter/task-search-fil
 export class TaskListComponent {
   public taskList: Array<TaskDetails> | any;
   dialogTitle: string = 'Create Server';
+  selectedTask: TaskDetails = {};
   isDialogOpen: boolean = false; 
 
 
   constructor(private tasksService: TasksService, public dialog: Dialog) {}
 
-  
+
   ngOnInit() {
     this.tasksService.getTasksList();
     this.tasksService.taskList$.asObservable().subscribe((data: any) => {
@@ -31,19 +33,29 @@ export class TaskListComponent {
     });
   }
 
+  handleTaskSelection($event: any) {
+    $event.stopPropagation();
+  }
+
   selectTask(task: TaskDetails) {
-
+    this.selectedTask = task;
   }
 
-  editTask(task: TaskDetails) {
-
+  editTask() {
+    this.dialogTitle = 'Edit '+ this.selectedTask.name;
+    this.openDialog();
   }
 
-  deleteTask(task: TaskDetails) {
+  deleteTask() {
+    let taskIndex = this.taskList.findIndex((task : TaskDetails) => {
+      task.name = this.selectTask.name;
+    });
 
+    this.taskList.splice(taskIndex, 1);
   }
 
-  createTask(task: TaskDetails) {
+  createTask() {
+    console.log('create Task');
     this.openDialog();
   }
 
@@ -53,7 +65,7 @@ export class TaskListComponent {
   }  
 
   openDialog(): void {
-    const dialogRef = this.dialog.open<string>(Dialog, {
+    const dialogRef = this.dialog.open<string>(DialogComponent, {
       width: '250px',
       data: {title: this.dialogTitle },
     });
