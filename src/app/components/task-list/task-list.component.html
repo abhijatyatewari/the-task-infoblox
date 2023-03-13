@@ -4,13 +4,13 @@
             color="primary"
             (click)="createTask()">Create Server</button>
         <button mat-flat-button
-            [disabled]="isSelected()"
+            [disabled]="!isTaskSelected || isMultipleTaskSelected"
             color="primary"
             (click)="editTask() ">Edit</button>
         <button mat-flat-button
-            [disabled]="isSelected()"
+            [disabled]="!isTaskSelected"
             color="primary"
-            (click)="deleteTask()">Remove</button>
+            (click)="deleteTasks()">Remove</button>
         <app-task-search-filter></app-task-search-filter>
     </div>
     <mat-accordion>

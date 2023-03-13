@@ -19,8 +19,8 @@ export class TaskSearchFilterComponent {
   ) {}
 
 
-  searchAndFilter(formData: any) {
-
+  searchAndFilter(filterText: string) {
+      this.tasksService.getFilteredTasksList(filterText);
   }
 
   resetForm() {

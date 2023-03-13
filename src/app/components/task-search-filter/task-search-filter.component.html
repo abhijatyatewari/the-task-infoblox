@@ -4,6 +4,7 @@
             name="taskName"
             type="text"
             placeholder="Search by Name"
-            [(ngModel)]="taskName" />
+            [(ngModel)]="taskName"
+            (ngModelChange)="searchAndFilter($event)" />
     </mat-form-field>
 </span>

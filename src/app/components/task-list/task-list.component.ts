@@ -19,7 +19,9 @@ import { DialogComponent } from '../dialog/dialog.component';
 export class TaskListComponent implements OnInit, AfterViewInit {
   public taskList: Array<TaskDetails> | any;
   dialogTitle: string = 'Create Server';
-  selectedTask: TaskDetails | null = {};
+  selectedTasks: Array<TaskDetails> = [];
+  isTaskSelected : boolean = false;
+  isMultipleTaskSelected : boolean = false;
   isDialogOpen: boolean = false; 
 
 
@@ -31,46 +33,53 @@ export class TaskListComponent implements OnInit, AfterViewInit {
     this.tasksService.taskList$.asObservable().subscribe((data: any) => {
       this.taskList = data;
     });
-
-    this.isSelected();
   }
 
   ngAfterViewInit() {
-    this.isSelected();
+    // this.isSelected();
   }
 
   handleTaskSelection($event: any, task: TaskDetails) {
     $event.stopPropagation();
-    if($event.target.checked === true) 
-    this.selectTask(task);
-    else
-    this.selectedTask = null;
+    if($event.target.checked === true) {
+      this.selectTask(task);
+      return;
+    }
+
+      this.deselectTask(task);
 
   }
 
   selectTask(task: TaskDetails) {
-    this.selectedTask = task;
+    this.selectedTasks.push(task);
+    this.updateTaskSelectStatus();
   }
 
-  isSelected() : boolean {
-    return this.selectedTask === null ? true : false;
+  deselectTask(deSelectedTask: TaskDetails) {
+    let taskIndex = this.selectedTasks.findIndex((task : TaskDetails) => {
+      task.name = deSelectedTask.name;
+    });
+
+    this.selectedTasks.splice(taskIndex, 1);
+    this.updateTaskSelectStatus();
   }
+
+  updateTaskSelectStatus() {
+    this.isTaskSelected = this.selectedTasks.length > 0;
+    this.isMultipleTaskSelected = this.selectedTasks.length > 1;
+  }
+
 
   editTask() {
-    this.dialogTitle = 'Edit '+ this.selectedTask?.name;
+    this.dialogTitle = 'Edit '+ this.selectedTasks[0]?.name;
     this.openDialog();
   }
 
-  deleteTask() {
-    let taskIndex = this.taskList.findIndex((task : TaskDetails) => {
-      task.name = this.selectTask.name;
-    });
-
-    this.taskList.splice(taskIndex, 1);
+  deleteTasks() {
+    this.tasksService.deleteTask(this.selectedTasks);
   }
 
   createTask() {
-    console.log('create Task');
     this.openDialog();
   }
 
@@ -82,7 +91,7 @@ export class TaskListComponent implements OnInit, AfterViewInit {
   openDialog(): void {
     const dialogRef = this.dialog.open<string>(DialogComponent, { 
       width: '250px',
-      data: { title: this.dialogTitle , selectedTask: this.selectedTask }
+      data: { task: this.selectedTasks[0] }
     });
 
     dialogRef.closed.subscribe(result => {

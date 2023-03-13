@@ -10,16 +10,15 @@ export class TasksService {
   public data: any;
   public taskList: Array<TaskDetails> = [];
   public searchFields: any;
-  private subject = new Subject<any>();
-  taskList$: BehaviorSubject<never[]>;
+  taskList$: Subject<TaskDetails[]>;
   private url: string = ''
  
   constructor(private http: HttpClient) {
-    this.taskList$ = new BehaviorSubject([]);
+    this.taskList$ = new Subject();
   }
 
 
-  public getTasksList(index?: number, perPage?: number, sortingArgs?: any, filterArgs?: any): any {
+  public getTasksList(index?: number, perPage?: number, filterArgs?: any, sortingArgs?: any): any {
     let qS = `./assets/mock-data/preconfigured-servers.json`;
     const params = encodeURI('paginate={"offset":' + index + ',"limit":' + perPage + ',"count": true}');
     if (filterArgs) {
@@ -31,7 +30,14 @@ export class TasksService {
     this.http
       .get<TaskDetails[]>(`${this.url + qS}`)
       .pipe(map((data: any) => data))
-      .subscribe((data) => this.taskList$.next(data));
+      .subscribe((data) => {
+        this.taskList = data;
+        this.taskList$.next(this.taskList)});
+  }
+
+  public getFilteredTasksList(filterArgs: string): any {
+    let filteredTaskList: TaskDetails[] = this.taskList.filter(task => task.name?.toLowerCase().includes(filterArgs));
+      this.taskList$.next(filteredTaskList);
   }
 
   public buildFilterExpression(filterValue: any): string {
@@ -46,13 +52,16 @@ export class TasksService {
     return query;
   }
 
-  public editTask(taskId: string): string {
-    let editStatus = '';
-    return editStatus;
+  public editTask(updatedTask: TaskDetails) {
+    let editTaskIndex = this.taskList.findIndex(task => task.nat_space_id === updatedTask.nat_space_id);
+    this.taskList[editTaskIndex] =  { ...this.taskList[editTaskIndex], ...updatedTask};
+    this.taskList$.next(this.taskList);
+
   }
 
-  public deleteTask(taskId: string): string {
-    let deleteStatus = '0';
-    return deleteStatus;
+  public deleteTask(taskDeletionList: TaskDetails[]) {
+    let updatedList: TaskDetails[] = this.taskList.filter(task => !taskDeletionList.find((deletedTask => task.nat_space_id === deletedTask.nat_space_id)));
+    this.taskList = updatedList;  
+    this.taskList$.next(this.taskList);
   }
 }
