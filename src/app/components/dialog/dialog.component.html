@@ -27,7 +27,8 @@
                     <mat-form-field floatLabel="always">
                         <mat-label>NAT Space</mat-label>
                         <mat-select name="taskNatSpace"
-                            [(ngModel)]="taskNatSpace">
+                            [(ngModel)]="taskNatSpace"
+                            disabled="selectorDisabled">
                             <mat-option *ngFor="let nat of natSpaces"
                                 value="{{nat.id}}">{{nat.name}}</mat-option>
                         </mat-select>
@@ -39,7 +40,7 @@
                             type="text"
                             placeholder=""
                             [(ngModel)]="taskIpAddress" />
-                        <mat-error *ngIf="taskIpAddress">
+                        <mat-error *ngIf="showIpValidationError">
                             IP Address Wrong!
                         </mat-error>
                     </mat-form-field>
