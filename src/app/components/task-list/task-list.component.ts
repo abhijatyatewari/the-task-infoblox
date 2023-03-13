@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { AbstractControl, FormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Dialog } from '@angular/cdk/dialog';
 
@@ -16,10 +16,10 @@ import { DialogComponent } from '../dialog/dialog.component';
   styleUrls: ['./task-list.component.scss'],
   providers: []
 })
-export class TaskListComponent {
+export class TaskListComponent implements OnInit, AfterViewInit {
   public taskList: Array<TaskDetails> | any;
   dialogTitle: string = 'Create Server';
-  selectedTask: TaskDetails = {};
+  selectedTask: TaskDetails | null = {};
   isDialogOpen: boolean = false; 
 
 
@@ -31,18 +31,33 @@ export class TaskListComponent {
     this.tasksService.taskList$.asObservable().subscribe((data: any) => {
       this.taskList = data;
     });
+
+    this.isSelected();
   }
 
-  handleTaskSelection($event: any) {
+  ngAfterViewInit() {
+    this.isSelected();
+  }
+
+  handleTaskSelection($event: any, task: TaskDetails) {
     $event.stopPropagation();
+    if($event.target.checked === true) 
+    this.selectTask(task);
+    else
+    this.selectedTask = null;
+
   }
 
   selectTask(task: TaskDetails) {
     this.selectedTask = task;
   }
 
+  isSelected() : boolean {
+    return this.selectedTask === null ? true : false;
+  }
+
   editTask() {
-    this.dialogTitle = 'Edit '+ this.selectedTask.name;
+    this.dialogTitle = 'Edit '+ this.selectedTask?.name;
     this.openDialog();
   }
 
@@ -65,9 +80,9 @@ export class TaskListComponent {
   }  
 
   openDialog(): void {
-    const dialogRef = this.dialog.open<string>(DialogComponent, {
+    const dialogRef = this.dialog.open<string>(DialogComponent, { 
       width: '250px',
-      data: {title: this.dialogTitle },
+      data: { title: this.dialogTitle , selectedTask: this.selectedTask }
     });
 
     dialogRef.closed.subscribe(result => {

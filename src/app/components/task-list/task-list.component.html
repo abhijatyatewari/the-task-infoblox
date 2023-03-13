@@ -4,9 +4,11 @@
             color="primary"
             (click)="createTask()">Create Server</button>
         <button mat-flat-button
+            [disabled]="isSelected()"
             color="primary"
-            (click)="editTask()">Edit</button>
+            (click)="editTask() ">Edit</button>
         <button mat-flat-button
+            [disabled]="isSelected()"
             color="primary"
             (click)="deleteTask()">Remove</button>
         <app-task-search-filter></app-task-search-filter>
@@ -18,7 +20,7 @@
                     <span class="online-status-bar"
                         [ngClass]="task.status == 'online' ? 'status-online' : 'status-offline'"></span>
                     <mat-checkbox class="task-item-checkbox"
-                        (click)="handleTaskSelection($event)">
+                        (click)="handleTaskSelection($event, task)">
                     </mat-checkbox>
                     <dl>
                         <dt>{{task.name}}</dt>

@@ -14,10 +14,10 @@ import { TaskDetails } from '../../models/tasks.model';
 })
 export class DialogComponent {
   public natSpaces = natSpaces;
-  taskName: string = '';
-  taskdescription: string = '';
-  taskNatSpace: string = '';
-  taskIpAddress: string = '';
+  taskName: string = this.data.name;
+  taskdescription: string = this.data.description;
+  taskNatSpace: string = this.data.nat_space_id;
+  taskIpAddress: string = this.data.server_ip;
   constructor(public dialogRef: DialogRef<DialogComponent>, @Inject(DIALOG_DATA) public data: any) {}
   
   closeDialog() {
